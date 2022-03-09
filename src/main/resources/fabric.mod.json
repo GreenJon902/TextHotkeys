@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "id": "texthotkeys",
+  "version": "${version}",
+  "name": "TexHotkeys",
+  "description": "Hotkeys for chat and commands",
+  "authors": [
+    "GreenJon902"
+  ],
+  "contact": {
+    "website": "https://github.com/GreenJon902",
+    "repo": "https://github.com/GreenJon902/TextHotkeys"
+  },
+  "license": "MIT",
+  "icon": "assets/texthotkeys/icon.png",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "com.greenjon902.texthotkeys.client.TextHotkeysClient"
+    ],
+    "main": [
+      "com.greenjon902.texthotkeys.TextHotkeys"
+    ]
+  },
+  "mixins": [
+    "texthotkeys.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.13.3",
+    "fabric": "*",
+    "minecraft": "1.18.2"
+  }
+}
