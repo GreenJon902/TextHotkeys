@@ -12,7 +12,6 @@
     "repo": "https://github.com/GreenJon902/TextHotkeys"
   },
   "license": "MIT",
-  "icon": "assets/texthotkeys/icon.png",
   "environment": "client",
   "entrypoints": {
     "client": [
@@ -22,9 +21,6 @@
       "com.greenjon902.texthotkeys.TextHotkeys"
     ]
   },
-  "mixins": [
-    "texthotkeys.mixins.json"
-  ],
   "depends": {
     "fabricloader": ">=0.13.3",
     "fabric": "*",
