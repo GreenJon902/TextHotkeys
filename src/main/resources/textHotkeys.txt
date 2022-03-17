@@ -1,0 +1,5 @@
+# Text Hotkeys Config
+# How to use this?
+# Write a command name and then an equals sign and then write the command
+# To ignore a command or text put a hashtag at the start of the line (like this text here)
+Example Command=/me did a thing!

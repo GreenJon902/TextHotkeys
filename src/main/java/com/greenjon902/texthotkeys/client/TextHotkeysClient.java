@@ -22,8 +22,8 @@ import java.util.Scanner;
 @Environment(EnvType.CLIENT)
 public class TextHotkeysClient implements ClientModInitializer {
 
-    static File configFile = FabricLoader.getInstance().getConfigDir().resolve("textHotkeys.ini").toFile();
-    static URL defaultConfigFile = TextHotkeysClient.class.getResource("/textHotkeys.ini");
+    static File configFile = FabricLoader.getInstance().getConfigDir().resolve("textHotkeys.txt").toFile();
+    static URL defaultConfigFile = TextHotkeysClient.class.getResource("/textHotkeys.txt");
 
     @Override
     public void onInitializeClient() {
