@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "id": "texthotkeys",
   "version": "${version}",
-  "name": "TexHotkeys",
+  "name": "TextHotkeys",
   "description": "Hotkeys for chat and commands",
   "icon": "icon.png",
   "authors": [
