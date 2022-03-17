@@ -72,26 +72,6 @@ public class TextHotkeysClient implements ClientModInitializer {
                 client.player.sendMessage(new TranslatableText("chat.config.reload"), false);
                 check_file();
                 reload();
-
-
-                try {
-                    Field field = KeyBindingRegistryImpl.class.getDeclaredField("moddedKeyBindings");
-                    System.out.println(field);
-                    field.setAccessible(true);
-                    System.out.println(field.get(KeyBindingRegistryImpl.class));
-                    field.get(KeyBindingRegistryImpl.class).getClass().getMethod("remove", Object.class).invoke(field.get(KeyBindingRegistryImpl.class), reloadKeyBinding);
-                    System.out.println(field.get(KeyBindingRegistryImpl.class));
-                    System.out.println(Arrays.toString(KeyBindingRegistryImpl.process(new KeyBinding[0])));
-                    KeyBindingHelper.registerKeyBinding(new KeyBinding(
-                            "key.texthotkeys.test",
-                            InputUtil.Type.KEYSYM,
-                            GLFW.GLFW_KEY_D,
-                            "category.textHotkeys"
-                    ));
-
-                } catch (NoSuchFieldException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
-                    e.printStackTrace();
-                }
             }
         });
     }
