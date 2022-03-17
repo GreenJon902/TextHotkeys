@@ -4,6 +4,7 @@
   "version": "${version}",
   "name": "TexHotkeys",
   "description": "Hotkeys for chat and commands",
+  "icon": "icon.png",
   "authors": [
     "GreenJon902"
   ],
