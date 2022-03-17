@@ -6,9 +6,11 @@ import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.text.TranslatableText;
+import net.minecraft.util.Formatting;
 import org.apache.commons.io.FileUtils;
 import org.lwjgl.glfw.GLFW;
 
@@ -16,13 +18,15 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.Scanner;
 
 @Environment(EnvType.CLIENT)
 public class TextHotkeysClient implements ClientModInitializer {
-
     static File configFile = FabricLoader.getInstance().getConfigDir().resolve("textHotkeys.txt").toFile();
     static URL defaultConfigFile = TextHotkeysClient.class.getResource("/textHotkeys.txt");
+
+    private final HashMap<Integer, String> keyBindings = new HashMap<>();
 
     @Override
     public void onInitializeClient() {
@@ -44,9 +48,9 @@ public class TextHotkeysClient implements ClientModInitializer {
         reload();
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
-            while (openConfigBinding.wasPressed()) {
-                assert client.player != null;
+            assert client.player != null;
 
+            while (openConfigBinding.wasPressed()) {
                 client.player.sendMessage(new TranslatableText("chat.config.open"), false);
                 check_file();
 
@@ -60,17 +64,25 @@ public class TextHotkeysClient implements ClientModInitializer {
             }
 
             while (reloadKeyBinding.wasPressed()) {
-                assert client.player != null;
-
                 client.player.sendMessage(new TranslatableText("chat.config.reload"), false);
                 check_file();
                 reload();
+                client.player.sendMessage(new TranslatableText("chat.config.reload.finished"), false);
+            }
+
+            for (int key : keyBindings.keySet()) {
+                if (InputUtil.isKeyPressed(MinecraftClient.getInstance().getWindow().getHandle(), key)) {
+                    client.player.sendMessage(new TranslatableText("chat.run.command"), false);
+                    client.player.sendChatMessage(keyBindings.get(key));
+                }
             }
         });
     }
 
     public void reload() {
         System.out.println("Reloading config file!");
+        keyBindings.clear();
+
         check_file();
         try {
             Scanner scanner = new Scanner(configFile);
@@ -78,10 +90,14 @@ public class TextHotkeysClient implements ClientModInitializer {
                 String line = scanner.nextLine();
                 if (!line.startsWith("#")) {
 
-                    String commandName, command;
+                    int key;
+                    String command;
                     String[] commandParts = line.split("=", 2);
-                    commandName = commandParts[0];
+                    key = Integer.parseInt(commandParts[0]);
                     command = commandParts[1];
+
+                    keyBindings.put(key, command);
+                    System.out.println("Found keybinding for key " + key + " which runs \"" + command + "\"");
                 }
             }
 
