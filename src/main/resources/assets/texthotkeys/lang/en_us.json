@@ -1,5 +1,8 @@
 {
   "key.texthotkeys.openConfig": "Open Config",
   "key.texthotkeys.reload": "Reload",
-  "category.texthotkeys": "TextHotkeys"
+  "category.texthotkeys": "TextHotkeys",
+  "chat.config.open": "Opening config file...",
+  "chat.config.open.failed": "Failed to open config file!",
+  "chat.config.reload": "Reloading config file..."
 }
