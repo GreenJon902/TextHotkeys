@@ -14,11 +14,14 @@ import net.minecraft.util.Formatting;
 import org.apache.commons.io.FileUtils;
 import org.lwjgl.glfw.GLFW;
 
+import javax.print.attribute.standard.JobKOctets;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Scanner;
 
 @Environment(EnvType.CLIENT)
@@ -27,6 +30,7 @@ public class TextHotkeysClient implements ClientModInitializer {
     static URL defaultConfigFile = TextHotkeysClient.class.getResource("/textHotkeys.txt");
 
     private final HashMap<Integer, String> keyBindings = new HashMap<>();
+    private final ArrayList<Integer> currentPressed = new ArrayList<>();
 
     @Override
     public void onInitializeClient() {
@@ -72,8 +76,14 @@ public class TextHotkeysClient implements ClientModInitializer {
 
             for (int key : keyBindings.keySet()) {
                 if (InputUtil.isKeyPressed(MinecraftClient.getInstance().getWindow().getHandle(), key)) {
-                    client.player.sendMessage(new TranslatableText("chat.run.command"), false);
-                    client.player.sendChatMessage(keyBindings.get(key));
+                    if (!currentPressed.contains(key)) {
+                        client.player.sendMessage(new TranslatableText("chat.run.command", keyBindings.get(key)), false);
+                        client.player.sendChatMessage(keyBindings.get(key));
+
+                        currentPressed.add(key);
+                    }
+                } else {
+                    currentPressed.remove((Object)key);
                 }
             }
         });

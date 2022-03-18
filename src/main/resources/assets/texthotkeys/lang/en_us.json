@@ -6,5 +6,5 @@
   "chat.config.open.failed": "Failed to open config file!",
   "chat.config.reload": "Reloading config file...",
   "chat.config.reload.finished": "Reloaded config file!",
-  "chat.run.command": "Running command"
+  "chat.run.command": "Running command %s"
 }
