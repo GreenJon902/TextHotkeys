@@ -29,8 +29,8 @@ public class TextHotkeysClient implements ClientModInitializer {
     static File configFile = FabricLoader.getInstance().getConfigDir().resolve("textHotkeys.txt").toFile();
     static URL defaultConfigFile = TextHotkeysClient.class.getResource("/textHotkeys.txt");
 
-    private final HashMap<Integer, String> keyBindings = new HashMap<>();
-    private final ArrayList<Integer> currentPressed = new ArrayList<>();
+    private final HashMap<String, String> keyBindingCommands = new HashMap<>();
+    private final ArrayList<KeyBinding> keyBindings = new ArrayList<>();
 
     @Override
     public void onInitializeClient() {
@@ -50,6 +50,15 @@ public class TextHotkeysClient implements ClientModInitializer {
         ));
 
         reload();
+
+        for (String commandName : keyBindingCommands.keySet()) {
+            keyBindings.add(KeyBindingHelper.registerKeyBinding(new KeyBinding(
+                    commandName,
+                    InputUtil.Type.KEYSYM,
+                    GLFW.GLFW_KEY_UNKNOWN,
+                    "category.textHotkeys.commands"
+            )));
+        }
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             assert client.player != null;
@@ -74,16 +83,10 @@ public class TextHotkeysClient implements ClientModInitializer {
                 client.player.sendMessage(new TranslatableText("chat.config.reload.finished"), false);
             }
 
-            for (int key : keyBindings.keySet()) {
-                if (InputUtil.isKeyPressed(MinecraftClient.getInstance().getWindow().getHandle(), key)) {
-                    if (!currentPressed.contains(key)) {
-                        client.player.sendMessage(new TranslatableText("chat.run.command", keyBindings.get(key)), false);
-                        client.player.sendChatMessage(keyBindings.get(key));
-
-                        currentPressed.add(key);
-                    }
-                } else {
-                    currentPressed.remove((Object)key);
+            for (KeyBinding keyBinding : keyBindings) {
+                while (keyBinding.wasPressed()) {
+                        client.player.sendMessage(new TranslatableText("chat.run.command", keyBinding.getTranslationKey()), false);
+                        client.player.sendChatMessage(keyBindingCommands.get(keyBinding.getTranslationKey()));
                 }
             }
         });
@@ -91,7 +94,7 @@ public class TextHotkeysClient implements ClientModInitializer {
 
     public void reload() {
         System.out.println("Reloading config file!");
-        keyBindings.clear();
+        keyBindingCommands.clear();
 
         check_file();
         try {
@@ -100,14 +103,13 @@ public class TextHotkeysClient implements ClientModInitializer {
                 String line = scanner.nextLine();
                 if (!line.startsWith("#")) {
 
-                    int key;
-                    String command;
+                    String commandName, command;
                     String[] commandParts = line.split("=", 2);
-                    key = Integer.parseInt(commandParts[0]);
+                    commandName = commandParts[0];
                     command = commandParts[1];
 
-                    keyBindings.put(key, command);
-                    System.out.println("Found keybinding for key " + key + " which runs \"" + command + "\"");
+                    keyBindingCommands.put(commandName, command);
+                    System.out.println("Found keybinding for key " + commandName + " which runs \"" + command + "\"");
                 }
             }
 

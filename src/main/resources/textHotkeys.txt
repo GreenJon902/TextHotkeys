@@ -1,5 +1,6 @@
 # Text Hotkeys Config
 # How to use this?
-# Write a key number and then an equals sign and then write the command
+# Write a command name and then an equals sign and then write the command
 # To ignore a command or text put a hashtag at the start of the line (like this text here)
-87=/me did a thing!
+# If you add more or remove some commands than you need to restart your client
+Example Command=/me did a thing!

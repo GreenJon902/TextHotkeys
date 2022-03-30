@@ -1,10 +1,11 @@
 {
-  "key.texthotkeys.openConfig": "Open Config",
-  "key.texthotkeys.reload": "Reload",
-  "category.texthotkeys": "TextHotkeys",
+  "key.textHotkeys.openConfig": "Open Config",
+  "key.textHotkeys.reload": "Reload",
+  "category.textHotkeys": "TextHotkeys",
+  "category.textHotkeys.commands": "TextHotkeys Bindings",
   "chat.config.open": "Opening config file...",
   "chat.config.open.failed": "Failed to open config file!",
   "chat.config.reload": "Reloading config file...",
   "chat.config.reload.finished": "Reloaded config file!",
-  "chat.run.command": "Running command %s"
+  "chat.run.command": "Running %s"
 }
