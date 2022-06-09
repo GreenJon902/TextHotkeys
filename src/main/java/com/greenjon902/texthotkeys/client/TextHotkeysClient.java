@@ -83,11 +83,9 @@ public class TextHotkeysClient implements ClientModInitializer {
                 while (keyBinding.wasPressed()) {
                     if (keyBindingCommands.get(keyBinding.getTranslationKey()).startsWith("/")) {
                         client.player.sendMessage(Text.translatable("chat.run.command", keyBinding.getTranslationKey()), false);
-                        System.out.println(1);
                         client.player.sendCommand(keyBindingCommands.get(keyBinding.getTranslationKey()).replaceFirst("/", ""));
                     } else {
                         client.player.sendMessage(Text.translatable("chat.run.message", keyBinding.getTranslationKey()), false);
-                        System.out.println(2);
                         client.player.sendChatMessage(keyBindingCommands.get(keyBinding.getTranslationKey()));
                     }
                 }
