@@ -36,14 +36,14 @@ public class TextHotkeysClient implements ClientModInitializer {
     public void onInitializeClient() {
 
         KeyBinding reloadKeyBinding = KeyBindingHelper.registerKeyBinding(new KeyBinding(
-                "key.texthotkeys.reload",
+                "key.textHotkeys.reload",
                 InputUtil.Type.KEYSYM,
                 GLFW.GLFW_KEY_R,
                 "category.textHotkeys"
         ));
 
         KeyBinding openConfigBinding = KeyBindingHelper.registerKeyBinding(new KeyBinding(
-                "key.texthotkeys.openConfig",
+                "key.textHotkeys.openConfig",
                 InputUtil.Type.KEYSYM,
                 GLFW.GLFW_KEY_C,
                 "category.textHotkeys"
