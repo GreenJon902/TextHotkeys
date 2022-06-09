@@ -6,22 +6,18 @@ import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
-import net.minecraft.text.TranslatableText;
-import net.minecraft.util.Formatting;
+import net.minecraft.text.Text;
 import org.apache.commons.io.FileUtils;
 import org.lwjgl.glfw.GLFW;
 
-import javax.print.attribute.standard.JobKOctets;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Scanner;
 
 @Environment(EnvType.CLIENT)
@@ -64,7 +60,7 @@ public class TextHotkeysClient implements ClientModInitializer {
             assert client.player != null;
 
             while (openConfigBinding.wasPressed()) {
-                client.player.sendMessage(new TranslatableText("chat.config.open"), false);
+                client.player.sendMessage(Text.translatable("chat.config.open"), false);
                 check_file();
 
                 Runtime runtime = Runtime.getRuntime();
@@ -72,20 +68,20 @@ public class TextHotkeysClient implements ClientModInitializer {
                     runtime.exec("notepad.exe " + configFile.getAbsolutePath());
                 } catch (IOException e) {
                     e.printStackTrace();
-                    client.player.sendMessage(new TranslatableText("chat.config.open.failed"), false);
+                    client.player.sendMessage(Text.translatable("chat.config.open.failed"), false);
                 }
             }
 
             while (reloadKeyBinding.wasPressed()) {
-                client.player.sendMessage(new TranslatableText("chat.config.reload"), false);
+                client.player.sendMessage(Text.translatable("chat.config.reload"), false);
                 check_file();
                 reload();
-                client.player.sendMessage(new TranslatableText("chat.config.reload.finished"), false);
+                client.player.sendMessage(Text.translatable("chat.config.reload.finished"), false);
             }
 
             for (KeyBinding keyBinding : keyBindings) {
                 while (keyBinding.wasPressed()) {
-                        client.player.sendMessage(new TranslatableText("chat.run.command", keyBinding.getTranslationKey()), false);
+                        client.player.sendMessage(Text.translatable("chat.run.command", keyBinding.getTranslationKey()), false);
                         client.player.sendChatMessage(keyBindingCommands.get(keyBinding.getTranslationKey()));
                 }
             }
