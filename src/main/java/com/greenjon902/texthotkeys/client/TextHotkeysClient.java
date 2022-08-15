@@ -111,7 +111,7 @@ public class TextHotkeysClient implements ClientModInitializer {
                         client.player.sendCommand(value.replaceFirst("/", ""));
                     } else {
                         client.player.sendMessage(Text.translatable("chat.run.message", name), false);
-                        client.player.sendChatMessage(value);
+                        client.player.sendChatMessage(value, null);
                     }
                 }
             }
