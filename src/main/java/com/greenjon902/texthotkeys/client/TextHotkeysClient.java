@@ -25,8 +25,8 @@ public class TextHotkeysClient implements ClientModInitializer {
     static File configFile = FabricLoader.getInstance().getConfigDir().resolve("textHotkeys.txt").toFile();
     static URL defaultConfigFile = TextHotkeysClient.class.getResource("/textHotkeys.txt");
 
-    private final HashMap<KeyBinding, String> keyBindings = new HashMap<>();
-    private final HashMap<String, String> hotkeyInformation = new HashMap<>();
+    private final Map<KeyBinding, String> keyBindings = new HashMap<>();
+    private final Map<String, String> hotkeyInformation = new HashMap<>();
 
     @Override
     public void onInitializeClient() {
@@ -124,7 +124,7 @@ public class TextHotkeysClient implements ClientModInitializer {
      */
     private boolean reload() throws FileNotFoundException {
         System.out.println("Attempting reloading");
-        HashMap<String, String> newHotkeyInformation = loadHotkeyInformation();
+        Map<String, String> newHotkeyInformation = loadHotkeyInformation();
 
         boolean needRestart = !hotkeyInformation.keySet().equals(newHotkeyInformation.keySet());
         hotkeyInformation.putAll(newHotkeyInformation); // Right-union of old and new hotkey informations
@@ -137,9 +137,9 @@ public class TextHotkeysClient implements ClientModInitializer {
      *
      * @return A map of hotkey names to their messages/commands
      */
-    private HashMap<String, String> loadHotkeyInformation() throws FileNotFoundException {
+    private Map<String, String> loadHotkeyInformation() throws FileNotFoundException {
         System.out.println("Loading config file!");
-        HashMap<String, String> newHotkeyInformation = new HashMap<>();
+        Map<String, String> newHotkeyInformation = new HashMap<>();
 
         check_file();
 
