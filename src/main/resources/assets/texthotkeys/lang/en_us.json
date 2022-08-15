@@ -4,11 +4,11 @@
   "category.textHotkeys": "TextHotkeys",
   "category.textHotkeys.commands": "TextHotkeys Bindings",
   "chat.config.open": "Opening config file...",
-  "chat.config.open.failed": "Failed to open config file!",
-  "chat.config.reload": "Reloading config file...",
-  "chat.config.reload.needRestart": "Please restart your game to apply all changes.",
-  "chat.config.reload.finished": "Reloaded config file!",
-  "chat.run.command": "Running %s",
-  "chat.run.message": "Sending %s",
-  "error": "Sorry, an error has occurred!"
+  "chat.config.open.failed": "§4Failed to open config file!",
+  "chat.config.reload": "§aReloading config file...",
+  "chat.config.reload.needRestart": "§6Please restart your game to apply all changes.",
+  "chat.config.reload.finished": "§aReloaded config file!",
+  "chat.run.command": "§bRunning %s",
+  "chat.run.message": "§bSending %s",
+  "chat.error": "§4Sorry, an error has occurred!"
 }

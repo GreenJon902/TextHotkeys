@@ -88,7 +88,7 @@ public class TextHotkeysClient implements ClientModInitializer {
                         client.player.sendMessage(Text.translatable("chat.config.reload.needRestart"));
                     }
                 } catch (Exception e) {
-                    client.player.sendMessage(Text.translatable("error"), false);
+                    client.player.sendMessage(Text.translatable("chat.error"), false);
                 }
                 client.player.sendMessage(Text.translatable("chat.config.reload.finished"), false);
             }
