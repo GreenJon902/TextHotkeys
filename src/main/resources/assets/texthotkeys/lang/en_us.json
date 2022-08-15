@@ -6,7 +6,9 @@
   "chat.config.open": "Opening config file...",
   "chat.config.open.failed": "Failed to open config file!",
   "chat.config.reload": "Reloading config file...",
+  "chat.config.reload.needRestart": "Please restart your game to apply all changes.",
   "chat.config.reload.finished": "Reloaded config file!",
   "chat.run.command": "Running %s",
-  "chat.run.message": "Sending %s"
+  "chat.run.message": "Sending %s",
+  "error": "Sorry, an error has occurred!"
 }
