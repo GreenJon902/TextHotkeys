@@ -20,13 +20,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
+import static com.greenjon902.texthotkeys.client.ConfigFile.configFile;
+import com.greenjon902.texthotkeys.client.ConfigFile;
+
 @Environment(EnvType.CLIENT)
 public class TextHotkeysClient implements ClientModInitializer {
-    static File configFile = FabricLoader.getInstance().getConfigDir().resolve("textHotkeys.txt").toFile();
-    static URL defaultConfigFile = TextHotkeysClient.class.getResource("/textHotkeys.txt");
-
-    private final Map<KeyBinding, String> keyBindings = new HashMap<>();
-    private final Map<String, String> hotkeyInformation = new HashMap<>();
+    private KeyBinding[] keyBindings = new KeyBinding[0];
 
     @Override
     public void onInitializeClient() {
@@ -48,17 +47,9 @@ public class TextHotkeysClient implements ClientModInitializer {
 
         // Make key bindings for menu
         try {
-            reload();
+            keyBindings = HotkeyRegisterer.register();
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
-        }
-        for (String hotkeyName : hotkeyInformation.keySet()) {
-            keyBindings.put(KeyBindingHelper.registerKeyBinding(new KeyBinding(
-                    hotkeyName,
-                    InputUtil.Type.KEYSYM,
-                    GLFW.GLFW_KEY_UNKNOWN,
-                    "category.textHotkeys.commands"
-            )), hotkeyName);
         }
 
 
@@ -68,7 +59,7 @@ public class TextHotkeysClient implements ClientModInitializer {
             // Open Config
             while (openConfigBinding.wasPressed()) {
                 client.player.sendMessage(Text.translatable("chat.config.open"), false);
-                check_file();
+                ConfigFile.checkFile();
 
                 Runtime runtime = Runtime.getRuntime();
                 try {
@@ -83,10 +74,7 @@ public class TextHotkeysClient implements ClientModInitializer {
             while (reloadKeyBinding.wasPressed()) {
                 client.player.sendMessage(Text.translatable("chat.config.reload"), false);
                 try {
-                    boolean needRestart = reload();
-                    if (needRestart) {
-                        client.player.sendMessage(Text.translatable("chat.config.reload.needRestart"));
-                    }
+                    keyBindings = HotkeyRegisterer.register();
                 } catch (Exception e) {
                     client.player.sendMessage(Text.translatable("chat.error"), false);
                 }
@@ -101,78 +89,19 @@ public class TextHotkeysClient implements ClientModInitializer {
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             assert client.player != null;
 
-            for (KeyBinding keyBinding : keyBindings.keySet()) {
+            for (KeyBinding keyBinding : keyBindings) {
                 while (keyBinding.wasPressed()) {
-                    String name = keyBindings.get(keyBinding);
-                    String value = hotkeyInformation.get(name);
+                    String hotkeyValue = keyBinding.getTranslationKey();
 
-                    if (value.startsWith("/")) {
-                        client.player.sendMessage(Text.translatable("chat.run.command", name), false);
-                        client.player.sendCommand(value.replaceFirst("/", ""));
+                    if (hotkeyValue.startsWith("/")) {
+                        client.player.sendMessage(Text.translatable("chat.run.command", hotkeyValue), false);
+                        client.player.sendCommand(hotkeyValue.replaceFirst("/", ""));
                     } else {
-                        client.player.sendMessage(Text.translatable("chat.run.message", name), false);
-                        client.player.sendChatMessage(value, null);
+                        client.player.sendMessage(Text.translatable("chat.run.message", hotkeyValue), false);
+                        client.player.sendChatMessage(hotkeyValue, null);
                     }
                 }
             }
         });
-    }
-
-    /**
-     * Reload the hotkey information
-     * @return Does the game need restarting
-     */
-    private boolean reload() throws FileNotFoundException {
-        System.out.println("Attempting reloading");
-        Map<String, String> newHotkeyInformation = loadHotkeyInformation();
-
-        boolean needRestart = !hotkeyInformation.keySet().equals(newHotkeyInformation.keySet());
-        hotkeyInformation.putAll(newHotkeyInformation); // Right-union of old and new hotkey informations
-
-        return needRestart;
-    }
-
-    /**
-     * Loads the hotkey names and their message/command
-     *
-     * @return A map of hotkey names to their messages/commands
-     */
-    private Map<String, String> loadHotkeyInformation() throws FileNotFoundException {
-        System.out.println("Loading config file!");
-        Map<String, String> newHotkeyInformation = new HashMap<>();
-
-        check_file();
-
-        Scanner scanner = new Scanner(configFile);
-        while (scanner.hasNextLine()) {
-            String line = scanner.nextLine();
-            if (!line.startsWith("#")) {
-
-                String hotkeyName, hotkeyValue;
-                String[] hotkeyParts = line.split("=", 2);
-                hotkeyName = hotkeyParts[0];
-                hotkeyValue = hotkeyParts[1];
-
-                newHotkeyInformation.put(hotkeyName, hotkeyValue);
-                System.out.println("Found keybinding for key " + hotkeyName + " which runs \"" + hotkeyValue + "\"");
-            }
-        }
-
-        return newHotkeyInformation;
-    }
-
-    /**
-     * Checks whether the config file is there
-     */
-    private void check_file() {
-        if (!configFile.exists()) {
-            configFile.getParentFile().mkdirs();
-
-            try {
-                FileUtils.copyURLToFile(defaultConfigFile, configFile);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
     }
 }
