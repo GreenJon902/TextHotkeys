@@ -1,14 +1,9 @@
 {
   "key.textHotkeys.openConfig": "Open Config",
-  "key.textHotkeys.reload": "Reload",
   "category.textHotkeys": "TextHotkeys",
-  "category.textHotkeys.commands": "TextHotkeys Bindings",
-  "chat.config.open": "Opening config file...",
-  "chat.config.open.failed": "§4Failed to open config file!",
-  "chat.config.reload": "§aReloading config file...",
-  "chat.config.reload.needRestart": "§6Please restart your game to apply all changes.",
-  "chat.config.reload.finished": "§aReloaded config file!",
-  "chat.run.command": "§bRunning %s",
-  "chat.run.message": "§bSending %s",
-  "chat.error": "§4Sorry, an error has occurred!"
+  "category.textHotkeys.config.general": "Hotkey Config",
+  "category.textHotkeys.config.hotkeys": "TextHotkeys Bindings",
+  "title.textHotkeys.configScreen": "TextHotkeys Config",
+  "chat.error": "§4Sorry, an error has occurred!",
+  "option.textHotkeys.notifyOnSend": "Notify on send"
 }

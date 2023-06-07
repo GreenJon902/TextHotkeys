@@ -6,6 +6,7 @@ import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.text.Text;
@@ -58,27 +59,7 @@ public class TextHotkeysClient implements ClientModInitializer {
 
             // Open Config
             while (openConfigBinding.wasPressed()) {
-                client.player.sendMessage(Text.translatable("chat.config.open"), false);
-                ConfigFile.checkFile();
-
-                Runtime runtime = Runtime.getRuntime();
-                try {
-                    runtime.exec("notepad.exe " + configFile.getAbsolutePath());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    client.player.sendMessage(Text.translatable("chat.config.open.failed"), false);
-                }
-            }
-
-            // Reload
-            while (reloadKeyBinding.wasPressed()) {
-                client.player.sendMessage(Text.translatable("chat.config.reload"), false);
-                try {
-                    keyBindings = HotkeyRegisterer.register();
-                } catch (Exception e) {
-                    client.player.sendMessage(Text.translatable("chat.error"), false);
-                }
-                client.player.sendMessage(Text.translatable("chat.config.reload.finished"), false);
+                MinecraftClient.getInstance().setScreen(ConfigScreen.build(MinecraftClient.getInstance().currentScreen));
             }
         });
 
