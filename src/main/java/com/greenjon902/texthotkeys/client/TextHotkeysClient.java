@@ -14,8 +14,10 @@ import net.minecraft.network.message.SentMessage;
 import net.minecraft.network.message.SignedMessage;
 import net.minecraft.text.Text;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.SystemUtils;
 import org.lwjgl.glfw.GLFW;
 
+import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -76,8 +78,17 @@ public class TextHotkeysClient implements ClientModInitializer {
                 check_file();
 
                 try {
-                    java.awt.Desktop.getDesktop().edit(configFile);
-                } catch (IOException e) {
+                    if (Desktop.isDesktopSupported()) Desktop.getDesktop().edit(configFile);
+                    else {
+                        System.out.println("Could not get desktop, attempting alternatives");
+                        Runtime runtime = Runtime.getRuntime();
+                        if (SystemUtils.IS_OS_WINDOWS)
+                            runtime.exec("notepad.exe " + configFile.getAbsolutePath());
+                        else if (SystemUtils.IS_OS_LINUX)
+                            runtime.exec("x-terminal-emulator -e nano " + configFile.getAbsolutePath());
+                    }
+
+                } catch (Exception e) {
                     e.printStackTrace();
                     client.player.sendMessage(Text.translatable("chat.config.open.failed"), false);
                 }
@@ -115,7 +126,7 @@ public class TextHotkeysClient implements ClientModInitializer {
                         client.player.networkHandler.sendChatCommand(value.replaceFirst("/", ""));
                     } else {
                         client.player.sendMessage(Text.translatable("chat.run.message", name), false);
-                        client.player.networkHandler.sendChatCommand(value);
+                        client.player.networkHandler.sendChatMessage(value);
                     }
                 }
             }
