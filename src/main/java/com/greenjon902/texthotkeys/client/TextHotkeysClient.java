@@ -6,8 +6,12 @@ import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.loader.api.FabricLoader;
+import net.fabricmc.tinyremapper.extension.mixin.common.data.Message;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
+import net.minecraft.network.message.MessageType;
+import net.minecraft.network.message.SentMessage;
+import net.minecraft.network.message.SignedMessage;
 import net.minecraft.text.Text;
 import org.apache.commons.io.FileUtils;
 import org.lwjgl.glfw.GLFW;
@@ -18,6 +22,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Scanner;
 
 @Environment(EnvType.CLIENT)
@@ -108,10 +113,10 @@ public class TextHotkeysClient implements ClientModInitializer {
 
                     if (value.startsWith("/")) {
                         client.player.sendMessage(Text.translatable("chat.run.command", name), false);
-                        client.player.sendCommand(value.replaceFirst("/", ""));
+                        client.player.networkHandler.sendChatCommand(value.replaceFirst("/", ""));
                     } else {
                         client.player.sendMessage(Text.translatable("chat.run.message", name), false);
-                        client.player.sendChatMessage(value, null);
+                        client.player.networkHandler.sendChatCommand(value);
                     }
                 }
             }
