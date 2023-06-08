@@ -75,9 +75,8 @@ public class TextHotkeysClient implements ClientModInitializer {
                 client.player.sendMessage(Text.translatable("chat.config.open"), false);
                 check_file();
 
-                Runtime runtime = Runtime.getRuntime();
                 try {
-                    runtime.exec("notepad.exe " + configFile.getAbsolutePath());
+                    java.awt.Desktop.getDesktop().edit(configFile);
                 } catch (IOException e) {
                     e.printStackTrace();
                     client.player.sendMessage(Text.translatable("chat.config.open.failed"), false);
