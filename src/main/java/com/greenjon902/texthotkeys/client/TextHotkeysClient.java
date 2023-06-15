@@ -41,10 +41,10 @@ public class TextHotkeysClient implements ClientModInitializer {
                     System.out.println(hotkeyValue + " sent");
 
                     if (hotkeyValue.startsWith("/")) {
-                        client.player.sendMessage(Text.translatable("chat.textHotkeys.command", hotkeyValue), false);
+                        if (Config.notifyOnSend) client.player.sendMessage(Text.translatable("chat.textHotkeys.command", hotkeyValue), false);
                         client.player.networkHandler.sendCommand(hotkeyValue.replaceFirst("/", ""));
                     } else {
-                        client.player.sendMessage(Text.translatable("chat.textHotkeys.message", hotkeyValue), false);
+                        if (Config.notifyOnSend) client.player.sendMessage(Text.translatable("chat.textHotkeys.message", hotkeyValue), false);
                         client.player.networkHandler.sendChatMessage(hotkeyValue);
                     }
                 }
