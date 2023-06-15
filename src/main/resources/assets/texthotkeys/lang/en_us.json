@@ -5,6 +5,16 @@
   "category.textHotkeys.config.hotkeys": "TextHotkeys Bindings",
   "title.textHotkeys.configScreen": "TextHotkeys Config",
   "chat.textHotkeys.error": "§4Sorry, an error has occurred!",
+  "chat.textHotkeys.command": "§7Running %s",
+  "chat.textHotkeys.message": "§7Sending %s",
   "option.textHotkeys.notifyOnSend": "Notify on send",
-  "option.textHotkeys.hotkey.remove": "Remove"
+  "option.textHotkeys.hotkey.title": "Hotkey %d - %s",
+  "option.textHotkeys.hotkey.text": "Text",
+  "option.textHotkeys.hotkey.text.tooltip": "The message or command to be sent in chat.",
+  "option.textHotkeys.hotkey.binding": "Key",
+  "option.textHotkeys.hotkey.binding.tooltip": "The key to press to send or run said text.",
+  "option.textHotkeys.hotkey.remove": "Remove",
+  "option.textHotkeys.hotkey.remove.tooltip": "Should this hotkey be removed when saving hotkeys?",
+  "option.textHotkeys.addHotkeys": "Add hotkeys",
+  "option.textHotkeys.addHotkeys.tooltip": "How many new hotkeys should be added upon saving this menu?"
 }

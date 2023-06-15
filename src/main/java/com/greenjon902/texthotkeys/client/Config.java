@@ -5,24 +5,30 @@ import net.minecraft.client.util.InputUtil;
 import net.minecraft.text.Text;
 import org.lwjgl.glfw.GLFW;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Random;
 
 public class Config {
     public static final boolean DEFAULT_NOTIFY_ON_SEND = true;
 
     public static boolean notifyOnSend = DEFAULT_NOTIFY_ON_SEND;
-    public static HotkeyInfo[] hotkeys = {new HotkeyInfo("/me bad", InputUtil.GLFW_KEY_P)};
+    public static ArrayList<HotkeyInfo> hotkeys = new ArrayList<>();
 
     public static class HotkeyInfo {
         private String text;
-        private int keyCode;
+        private InputUtil.Key key;
         private KeyBinding keyBinding;
 
-        public HotkeyInfo(String text, int keyCode) {
-            this.text = text;
-            this.keyCode = keyCode;
+        private static int count = 0;
 
-            this.keyBinding = new KeyBinding(text, keyCode, "");
+        public HotkeyInfo(String text, InputUtil.Key key) {
+            this.text = text;
+            this.key = key;
+
+            this.keyBinding = new KeyBinding(String.valueOf(count), key.getCategory(), key.getCode(), "");
+            count += 1;
         }
 
         public KeyBinding getKeyBinding() {
@@ -31,6 +37,22 @@ public class Config {
 
         public String getText() {
             return text;
+        }
+
+        public void setText(String text) {
+            this.text = text;
+        }
+
+        public InputUtil.Key getKey() {
+            return key;
+        }
+
+        public void setKey(InputUtil.Key key) {
+            this.key = key;
+            this.keyBinding.setBoundKey(key);
+            System.out.println(key);
+            System.out.println(key.getTranslationKey());
+            KeyBinding.updateKeysByCode();
         }
     }
 }
