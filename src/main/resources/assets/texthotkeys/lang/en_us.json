@@ -1,9 +1,10 @@
 {
   "key.textHotkeys.openConfig": "Open Config",
   "category.textHotkeys": "TextHotkeys",
-  "category.textHotkeys.config.general": "Hotkey Config",
+  "category.textHotkeys.config.general": "TextHotkeys Config",
   "category.textHotkeys.config.hotkeys": "TextHotkeys Bindings",
   "title.textHotkeys.configScreen": "TextHotkeys Config",
-  "chat.error": "§4Sorry, an error has occurred!",
-  "option.textHotkeys.notifyOnSend": "Notify on send"
+  "chat.textHotkeys.error": "§4Sorry, an error has occurred!",
+  "option.textHotkeys.notifyOnSend": "Notify on send",
+  "option.textHotkeys.hotkey.remove": "Remove"
 }
