@@ -15,6 +15,9 @@ import org.lwjgl.glfw.GLFW;
 public class TextHotkeysClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
+        Config.loadConfig();
+
+
         KeyBinding openConfigBinding = KeyBindingHelper.registerKeyBinding(new KeyBinding(
                 "key.textHotkeys.openConfig",
                 InputUtil.Type.KEYSYM,
@@ -51,4 +54,6 @@ public class TextHotkeysClient implements ClientModInitializer {
             }
         });
     }
+
+
 }

@@ -58,7 +58,7 @@ public class ConfigScreen {
                         .setSaveConsumer(ConfigScreen::addNew)
                         .build()
         );
-
+        builder.setSavingRunnable(Config::saveConfig);
         return builder.build();
     }
 
